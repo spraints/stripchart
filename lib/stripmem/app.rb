@@ -26,6 +26,11 @@ module StripMem
           EM.stop
         end
       end
+      begin
+        Process.kill(@child, 'QUIT')
+      rescue => e
+        puts "kill #{@child.inspect}: #{e}"
+      end
     end
 
     def find_children
@@ -53,10 +58,10 @@ module StripMem
     end
 
     def spawn!
-      child = fork do
+      @child = fork do
         exec(*command)
       end
-      processes[child] = command.join(' ')
+      processes[@child] = command.join(' ')
     end
   end
 end
