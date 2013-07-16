@@ -1,2 +1,4 @@
-.bundle
 Gemfile.lock
+.bundle
+# I `bundle install --binstubs` locally.
+bin
