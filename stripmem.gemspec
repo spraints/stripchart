@@ -12,6 +12,7 @@ Gem::Specification.new do |s|
     stripmem
   )
   s.add_dependency 'em-websocket'
+  s.add_dependency 'json'
   s.add_dependency 'sinatra'
   s.add_development_dependency 'debugger'
 end
