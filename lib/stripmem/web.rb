@@ -12,7 +12,7 @@ module StripMem
     
     class App < Sinatra::Base
       get '/' do
-        haml :index
+        erb :index
       end
     end
   end
