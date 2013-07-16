@@ -1,3 +1,5 @@
+require 'em-websocket'
+
 module StripMem
   class WebSocket
     def initialize(channel)
@@ -5,7 +7,7 @@ module StripMem
     end
 
     def run!
-      EventMachine::WebSocket.start(:port => 9998) do |ws|
+      EventMachine::WebSocket.start(:host => 'localhost', :port => 9998) do |ws|
         ws.onopen do
           sid = @channel.subscribe { |msg| ws.send(msg) }
           ws.onclose { @channel.unsubscribe(sid) }

@@ -7,7 +7,7 @@ module StripMem
     end
 
     def run!
-      App.run!
+      App.run!(:port => 9999, :server => 'webrick')
     end
     
     class App < Sinatra::Base
