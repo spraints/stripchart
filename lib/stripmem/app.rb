@@ -54,7 +54,7 @@ module StripMem
     end
 
     def processes
-      @processes ||= { $$ => '(server)' }
+      @processes ||= { $$ => '(stripmem)' }
     end
 
     def spawn!
