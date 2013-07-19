@@ -1,6 +1,17 @@
 require 'stripmem/web'
 require 'stripmem/websocket'
 
+if RUBY_VERSION =~ /^1.8/
+  module Enumerable
+    def each_with_object(obj)
+      each do |x|
+        yield x, obj
+      end
+      obj
+    end
+  end
+end
+
 module StripMem
   class App
     def self.run!(argv)
@@ -23,7 +34,9 @@ module StripMem
         WebSocket.new(channel).run!
         Thread.new do
           Web.new(channel).run! # This doesn't return until sinatra exits. (Sinatra handles SIGINT.)
+          kill!
           EM.stop
+          exit
         end
       end
       kill!
