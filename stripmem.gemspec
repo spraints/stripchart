@@ -6,6 +6,7 @@ Gem::Specification.new do |s|
   s.homepage = 'https://github.com/spraints/stripmem'
   s.authors = ["Matt Burke"]
   s.email   = 'spraints@gmail.com'
+  s.license = 'MIT'
   s.files   = Dir['lib/**/*', 'README.md', 'LICENSE']
   s.bindir  = 'exe'
   s.executables = %w(
