@@ -26,11 +26,13 @@ module StripMem
           EM.stop
         end
       end
-      begin
-        Process.kill(@child, 'QUIT')
-      rescue => e
-        puts "kill #{@child.inspect}: #{e}"
-      end
+      kill!
+    end
+
+    def kill!
+      Process.kill('QUIT', @child.to_i)
+    rescue => e
+      puts "kill #{@child.inspect}: #{e}"
     end
 
     def find_children
