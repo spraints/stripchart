@@ -7,7 +7,10 @@ module StripMem
     end
 
     def run!
-      App.run!(:port => 9999, :server => 'webrick')
+      puts "Starting a server on http://localhost:9999/"
+      App.run!(:port => 9999, :server => 'webrick') do
+        system "open http://localhost:9999/"
+      end
     end
     
     class App < Sinatra::Base
