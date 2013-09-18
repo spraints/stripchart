@@ -26,11 +26,15 @@ module StripMem
     attr_reader :command, :start_time
 
     def run!
+      @timers = []
       EventMachine.run do
         spawn!
         channel = EM::Channel.new
-        EM::PeriodicTimer.new(1.0) { find_children }
-        EM::PeriodicTimer.new(0.2) { ps(channel) }
+        @timers = [
+          EM::PeriodicTimer.new(1.0) { find_children },
+          EM::PeriodicTimer.new(0.2) { ps(channel) },
+          EM::PeriodicTimer.new(1.0) { wait_child },
+        ]
         WebSocket.new(channel).run!
         Thread.new do
           Web.new(channel).run! # This doesn't return until sinatra exits. (Sinatra handles SIGINT.)
@@ -43,7 +47,7 @@ module StripMem
     end
 
     def kill!
-      Process.kill('QUIT', @child.to_i)
+      Process.kill('QUIT', @child.to_i) unless @child_status
     rescue => e
       puts "kill #{@child.inspect}: #{e}"
     end
@@ -77,6 +81,14 @@ module StripMem
         exec(*command)
       end
       processes[@child] = command.join(' ')
+    end
+
+    def wait_child
+      if @child_status ||= Process.waitpid2(-1, Process::WNOHANG)
+        @timers.each do |timer|
+          timer.cancel
+        end
+      end
     end
   end
 end
