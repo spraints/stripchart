@@ -1,7 +1,7 @@
 require 'em-websocket'
 require 'json'
 
-module StripMem
+module StripChart
   class WebSocket
     def initialize(channel)
       @channel = channel

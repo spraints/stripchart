@@ -1,6 +1,6 @@
 require 'sinatra/base'
 
-module StripMem
+module StripChart
   class Web
     def initialize(channel)
       @channel = channel
