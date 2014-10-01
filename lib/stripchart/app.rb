@@ -1,5 +1,5 @@
-require 'stripmem/web'
-require 'stripmem/websocket'
+require 'stripchart/web'
+require 'stripchart/websocket'
 
 if RUBY_VERSION =~ /^1.8/
   module Enumerable
@@ -12,7 +12,7 @@ if RUBY_VERSION =~ /^1.8/
   end
 end
 
-module StripMem
+module StripChart
   class App
     def self.run!(argv)
       new(argv).run!
@@ -73,7 +73,7 @@ module StripMem
     end
 
     def processes
-      @processes ||= { $$ => '(stripmem)' }
+      @processes ||= { $$ => '(stripchart)' }
     end
 
     def spawn!

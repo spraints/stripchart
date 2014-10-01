@@ -1,3 +1,3 @@
-module StripMem
+module StripChart
   VERSION = '0.0.3'
 end
