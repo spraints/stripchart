@@ -6,20 +6,16 @@ Show a live chart of your process's memory usage.
 
 To use stripmem in an existing application, add it to your Gemfile
 
-    gem 'stripmem'
+    gem 'stripchart'
 
 To use stripmem standalone, install it.
 
-    gem install stripmem
+    gem install stripchart
 
 ## Usage
 
-You can run this as a monitor of a new process and all processes spawned from it.
+Start it up like this:
 
-    $ stripmem tar cfv /dev/null ~
-
-If you installed it in your Gemfile, you can monitor your rails server process, too:
-
-    $ bundle exec stripmem rails server
+    $ while true; do sleep 0.5 ; echo n $RANDOM; done | stripchart
 
 To view the chart, open http://localhost:9999/
