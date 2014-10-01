@@ -15,7 +15,7 @@ module StripMem
     
     class App < Sinatra::Base
       get '/' do
-        erb :index
+        erb :index, :locals => { :web_socket_url => "ws://localhost:9998/data" }
       end
     end
   end

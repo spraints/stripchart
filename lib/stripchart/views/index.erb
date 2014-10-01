@@ -7,7 +7,7 @@
     <script src="/components/d3/d3.min.js" type="text/javascript"></script>
     <script src="/app.js" type="text/javascript"></script>
   </head>
-  <body data-websocket="ws://localhost:9998/ps">
+  <body data-websocket="<%= web_socket_url %>">
     <div>
       show
       <button class="js-adjust-window" data-n="15" data-step="5">15s</button>
