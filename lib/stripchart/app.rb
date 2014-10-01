@@ -29,12 +29,10 @@ module StripChart
       @timers = []
       EventMachine.run do
         data_channel = EM::Channel.new
-        @timers = [
-          EM::PeriodicTimer.new(0.2) { pump_fh(data_channel) },
-        ]
+        EM::PeriodicTimer.new(0.2) { pump_fh(data_channel) }
         WebSocket.new(data_channel).run!
         Thread.new do
-          puts "Starting web server"
+          puts "Reading data from stdin..."
           Web.new(data_channel).run! # This doesn't return until sinatra exits. (Sinatra handles SIGINT.)
           puts "Exit..."
           EM.stop
@@ -44,11 +42,30 @@ module StripChart
     end
 
     def pump_fh(data_channel, fh=$stdin)
+      @buffer ||= ""
+      data = @buffer + fh.read_nonblock(100_000)
+      samples = {}
+      data.lines.each do |line|
+        if line.end_with?("\n")
+          if line =~ /^(.*\S)\s+([\d.]+)$/
+            samples[$1] = $2.to_f
+          end
+        else
+          # This should be the last, partial line.
+          @buffer = line
+        end
+      end
+
       offset = Time.now - start_time
-      samples = [
-        { :name => "random", :value => rand },
-      ]
+      samples = samples.map { |name,value| { :name => name, :value => value } }
+
       data_channel.push :offset => offset, :samples => samples
+
+    rescue EOFError
+      EM.stop
+
+    rescue IO::WaitReadable
+      # nothing to read
     end
   end
 end
