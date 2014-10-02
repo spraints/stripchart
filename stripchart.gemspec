@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.authors = ["Matt Burke"]
   s.email   = 'spraints@gmail.com'
   s.license = 'MIT'
-  s.files   = Dir['lib/**/*', 'README.md', 'LICENSE']
+  s.files   = Dir['lib/**/*', 'examples/**/*', 'README.md', 'LICENSE']
   s.bindir  = 'exe'
   s.executables = %w(
     stripchart
